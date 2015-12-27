@@ -47,7 +47,7 @@ public final class Class<T> {
         }
     }
 
-    private static HashMap<String, Class> classesByName = new HashMap<String, Class>();
+    private static HashMap<String, Class<?>> classesByName = new HashMap<String, Class<?>>();
     private Object nativeClass;
     
     private Class(Object theNativeClass) {
@@ -60,7 +60,7 @@ public final class Class<T> {
     }
 
     public static Class<?> forName(String className) throws ClassNotFoundException {
-        Class clazz = classesByName.get(className);
+        Class<?> clazz = classesByName.get(className);
         if (clazz != null) return clazz;
         
         ScriptHelper.put("className", className);

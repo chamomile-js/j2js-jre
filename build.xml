@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="j2js-jre">
+    <property environment="env"/>
+	<property file="build.properties" />
+    <property name="ECLIPSE_HOME" value="/Applications/Eclipse.app/Contents/Eclipse/"/>
+    <property name="j2js-api.location" value="../j2js-api"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
+    <path id="j2js-jre.classpath">
+        <pathelement location="target/classes"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="target/classes"/>
+        <copy includeemptydirs="false" todir="target/classes">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="target/classes"/>
+    </target>
+    <target depends="clean" name="cleanall">
+		<delete file="${ant.project.name}-${project.version}.jar" />
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/main/java"/>
+            <classpath refid="j2js-jre.classpath"/>
+        </javac>
+    </target>
+	<target depends="build" name="build-jar">
+		<jar destfile="${ant.project.name}-${project.version}.jar" basedir="target/classes" />
+	</target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${j2js-api.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${j2js-api.location}" inheritAll="false" target="build"/>
+    </target>
+</project>
