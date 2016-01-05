@@ -11,17 +11,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package java.lang;
-
-import java.util.Iterator;
+package java.util;
 
 /**
- * Allows an instance of a class implementing this interface to be used in the
- * for each statement.
- * 
- * @param <T>
- *           type of returned iterator
+ * Indicates that a data structure supports constant-time random access to its
+ * contained objects.
  */
-public interface Iterable<T> {
-   public Iterator<T> iterator();
-}
+public interface RandomAccess {}

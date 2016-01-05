@@ -1,6 +1,6 @@
 package javax.script;
 
-class ScriptEngineImpl implements ScriptEngine {
+final class ScriptEngineImpl implements ScriptEngine {
    
    @Override
    public native Object eval(String script);

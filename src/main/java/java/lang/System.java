@@ -1,4 +1,6 @@
+//@formatter:off
 /*
+ *
  * Copyright (c) 2005 j2js.com,
  *
  * All Rights Reserved. This work is distributed under the j2js Software License [1]
@@ -7,6 +9,7 @@
  *
  * [1] http://www.j2js.com/license.txt
  */
+//@formatter:on
 
 package java.lang;
 
@@ -20,8 +23,6 @@ import javascript.ScriptHelper;
 /**
  * The System class contains several useful class fields and methods. It cannot
  * be instantiated.
- * 
- * @author com.j2js
  */
 public final class System {
    
@@ -37,6 +38,9 @@ public final class System {
     */
    public static PrintStream out;
    
+   /**
+    * System property set through the URL query parameters on startup.
+    */
    public static HashMap<String, String> properties = new HashMap<String, String>();
    
    public static ScriptEngine scriptEngine;

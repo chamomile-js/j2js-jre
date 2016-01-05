@@ -1,9 +1,9 @@
 package java.util;
 
 
-public abstract class AbstractCollection<T> implements Collection<T>, Iterable<T> {
+public abstract class AbstractCollection<E> implements Collection<E>, Iterable<E> {
 
-    public abstract Iterator<T> iterator();
+    public abstract Iterator<E> iterator();
     
     /**
      * Returns the number of elements in this collection.
@@ -14,19 +14,19 @@ public abstract class AbstractCollection<T> implements Collection<T>, Iterable<T
     /**
      * Returns an array containing all of the elements in this list in the correct order.
      */
-    public T[] toArray() {
-        return toArray((T[]) new Object[size()]);
+    public Object[] toArray() {
+        return toArray(new Object[size()]);
     }
 
     /**
      * Returns an array containing all of the elements in this list in the correct order.
      */
-    public T[] toArray(T[] target) {
+    public <T> T[] toArray(T[] target) {
         int size = size();
         if (target.length < size) target = (T[]) new Object[size];
         int i = 0;
-        for (T element : this) {
-            target[i++] = element;
+        for (E element : this) {
+            target[i++] = (T) element;
         }
         if (target.length > size) target[size] = null;
         return target;
@@ -39,7 +39,7 @@ public abstract class AbstractCollection<T> implements Collection<T>, Iterable<T
         StringBuffer buffer = new StringBuffer();
         buffer.append('[');
         int i = 0;
-        for (T element : this) {
+        for (E element : this) {
             if (i++>0) buffer.append(", ");
             buffer.append(element);
         }

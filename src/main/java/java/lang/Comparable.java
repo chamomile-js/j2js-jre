@@ -13,15 +13,12 @@
  */
 package java.lang;
 
-import java.util.Iterator;
-
 /**
- * Allows an instance of a class implementing this interface to be used in the
- * for each statement.
- * 
+ * An interface used as basis for implementing custom ordering.
+ *
  * @param <T>
- *           type of returned iterator
+ *           the type to compare to.
  */
-public interface Iterable<T> {
-   public Iterator<T> iterator();
+public interface Comparable<T> {
+   int compareTo(T other);
 }

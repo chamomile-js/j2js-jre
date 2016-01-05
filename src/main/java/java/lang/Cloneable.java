@@ -1,12 +1,16 @@
 package java.lang;
 
 /**
- * A class implements the Cloneable interface to indicate to the Object.clone() method
- * that it is legal for that method to make a field-for-field copy of instances of that class.
- * 
- * Invoking Object's clone method on an instance that does not implement the Cloneable interface
- * results in the exception CloneNotSupportedException being thrown. 
+ * This (empty) interface must be implemented by all classes that wish to
+ * support cloning. The implementation of {@code clone()} in {@code Object}
+ * checks if the object being cloned implements this interface and throws
+ * {@code CloneNotSupportedException} if it does not.
+ *
+ * @see Object#clone
+ * @see CloneNotSupportedException
+ *      
+ * @since chamomile
  */
 public interface Cloneable {
-
+   // Marker interface
 }
