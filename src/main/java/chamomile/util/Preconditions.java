@@ -3,7 +3,7 @@ package chamomile.util;
 /**
  * A utility class that provides utility functions to do precondition checks.
  */
-public class InternalPreconditions {
+public class Preconditions {
    // Some parts adapted from Guava
    
    /**
