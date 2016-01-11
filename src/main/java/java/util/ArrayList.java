@@ -24,35 +24,36 @@ import javascript.ScriptHelper;
 public class ArrayList<E> extends AbstractCollection<E> implements List<E>, RandomAccess {
    
    class ArrayListIterator implements Iterator<E> {
-      
-      private ArrayList<E> list;
-      private int currentIndex;
+      private int currentIndex, last;
       
       ArrayListIterator(ArrayList<E> theList) {
-         list = theList;
          currentIndex = 0;
+         last = -1;
       }
       
       @Override
       public boolean hasNext() {
-         return list.size() > currentIndex;
+         return currentIndex < ArrayList.this.size();
       }
       
       @Override
       public E next() {
+         // TODO Preconditions.checkState(hasNext());
          if (!hasNext()) {
             throw new NoSuchElementException();
          }
-         return list.get(currentIndex++);
+         return ArrayList.this.get(last = currentIndex++);
       }
       
       @Override
       public void remove() {
+         // TODO Preconditions.checkState(last != -1);
          if (currentIndex == 0) {
             throw new RuntimeException();// TODO: IllegalStateException();
          }
-         list.remove(currentIndex);
-         
+         ArrayList.this.remove(last);
+         currentIndex = last;
+         last = -1;
       }
    }
    
@@ -314,5 +315,5 @@ public class ArrayList<E> extends AbstractCollection<E> implements List<E>, Rand
     * size.
     */
    public void trimToSize() {}
- 
+   
 }
