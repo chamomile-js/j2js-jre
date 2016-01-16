@@ -113,7 +113,7 @@ public class ArrayList<E> extends AbstractCollection<E> implements List<E>, Rand
     * Inserts the specified element at the specified position in this list.
     */
    @Override
-   public boolean add(int index, E element) {
+   public void add(int index, E element) {
       if (index < 0 || index > end - start) {
          throw new ArrayIndexOutOfBoundsException(index);
       }
@@ -125,7 +125,7 @@ public class ArrayList<E> extends AbstractCollection<E> implements List<E>, Rand
       // array[i] = array[i-1];
       // }
       // array[index] = elem;
-      return true;
+      //return true;
    }
    
    /**

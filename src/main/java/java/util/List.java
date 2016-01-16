@@ -24,7 +24,7 @@ public interface List<T> extends Collection<T> {
     * Inserts the specified element at the specified position in this list
     * (optional operation).
     */
-   boolean add(int index, T element);
+   void add(int index, T element);
    
    /**
     * Compares the specified object with this list for equality.
