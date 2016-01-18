@@ -22,6 +22,13 @@ public class JSObject {
       return System.scriptEngine.eval("obj[propertyName]");
    }
    
+   public static Object putProperty(Object obj, String propertyName, Object value) {
+     System.scriptEngine.put("obj", obj);
+     System.scriptEngine.put("propertyName", propertyName);
+     System.scriptEngine.put("value", value);
+     return System.scriptEngine.eval("obj[propertyName] = value");
+  }
+   
    public static boolean containsKey(Object obj, String propertyName) {
       System.scriptEngine.put("obj", obj);
       System.scriptEngine.put("propertyName", propertyName);
