@@ -15,67 +15,83 @@ package javascript;
 
 /** Represents a native JavaScript object. */
 public class JSObject {
-   
-   public static Object getProperty(Object obj, String propertyName) {
-      System.scriptEngine.put("obj", obj);
-      System.scriptEngine.put("propertyName", propertyName);
-      return System.scriptEngine.eval("obj[propertyName]");
-   }
-   
-   public static Object putProperty(Object obj, String propertyName, Object value) {
-     System.scriptEngine.put("obj", obj);
-     System.scriptEngine.put("propertyName", propertyName);
-     System.scriptEngine.put("value", value);
-     return System.scriptEngine.eval("obj[propertyName] = value");
+
+  public static boolean containsKey(Object obj, String key) {
+    System.scriptEngine.put("obj", obj);
+    System.scriptEngine.put("key", key);
+    // Warning: Cannot use (obj[key] != undefined) because
+    // (null == undefined) evaluates to true.
+    return ScriptHelper.evalBoolean("typeof(obj[key]) != 'undefined'");
   }
-   
-   public static boolean containsKey(Object obj, String propertyName) {
+
+  public static Object get(Object obj, String key) {
+    if (containsKey(obj, key)) {
       System.scriptEngine.put("obj", obj);
-      System.scriptEngine.put("propertyName", propertyName);
-      // Warning: Cannot use (obj[propertyName] != undefined) because
-      // (null == undefined) evaluates to true.
-      return ScriptHelper.evalBoolean("typeof(obj[propertyName]) != 'undefined'");
-   }
-   
-   public JSObject() {
-      System.scriptEngine.eval("this.obj = new Object()");
-   }
-   
-   public JSObject(Object obj) {
-      System.scriptEngine.put("obj", obj);
-      System.scriptEngine.eval("this.obj = obj");
-   }
-   
-   public JSObject(String javascriptRef) {
-      System.scriptEngine.put("javascriptRef", javascriptRef);
-      System.scriptEngine.eval("this.obj = eval(javascriptRef)");
-   }
-   
-   public boolean containsKey(String propertyName) {
-      return containsKey(System.scriptEngine.eval("this.obj"), propertyName);
-   }
-   
-   public Object get(String key) {
       System.scriptEngine.put("key", key);
-      if (containsKey(System.scriptEngine.eval("this.obj"), key)) {
-         return System.scriptEngine.eval("this.obj[key]");
-      }
-      return null;
-   }
-   
-   public void put(String key, Object value) {
-      System.scriptEngine.put("key", key);
-      System.scriptEngine.put("value", value);
-      System.scriptEngine.eval("this.obj[key] = value");
-   }
-   
-   public void remove(String key) {
-      System.scriptEngine.put("key", key);
-      System.scriptEngine.eval("delete this.obj[key]");
-   }
-   
-   public String[] keys() {
-      System.scriptEngine.eval("var keys = new Array(); for (var e in this.obj) keys.push(e)");
-      return (String[]) System.scriptEngine.eval("keys");
-   }
+      return System.scriptEngine.eval("obj[key]");
+    }
+    return null;
+  }
+
+  public static Object put(Object obj, String key, Object value) {
+    System.scriptEngine.put("obj", obj);
+    System.scriptEngine.put("key", key);
+    System.scriptEngine.put("value", value);
+    System.scriptEngine.eval("obj[key] = value");
+    return obj;
+  }
+
+  public static Object remove(Object obj, String key) {
+    System.scriptEngine.put("obj", obj);
+    System.scriptEngine.put("key", key);
+    System.scriptEngine.eval("delete obj[key]");
+    return obj;
+  }
+  
+  public static String[] keys(Object obj) {
+    System.scriptEngine.put("obj", obj);
+    System.scriptEngine.eval("var keys = new Array(); for(var e in obj) keys.push(e)");
+    return (String[]) System.scriptEngine.eval("keys");
+  }
+  
+  public static boolean isArray(Object obj) {
+	    System.scriptEngine.put("obj", obj);
+	    return ScriptHelper.evalBoolean("");
+  }
+
+  // ---
+
+  public JSObject() {
+    System.scriptEngine.eval("this.obj = new Object()");
+  }
+
+  public JSObject(Object obj) {
+    System.scriptEngine.put("obj", obj);
+    System.scriptEngine.eval("this.obj = obj");
+  }
+
+  public JSObject(String javascriptRef) {
+    System.scriptEngine.put("javascriptRef", javascriptRef);
+    System.scriptEngine.eval("this.obj = eval(javascriptRef)");
+  }
+
+  public boolean containsKey(String key) {
+    return JSObject.containsKey(this, key);
+  }
+
+  public Object get(String key) {
+    return JSObject.get(this, key);
+  }
+
+  public JSObject put(String key, Object value) {
+    return (JSObject) JSObject.put(this, key, value);
+  }
+
+  public JSObject remove(String key) {
+    return (JSObject) JSObject.remove(this, key);
+  }
+
+  public String[] keys() {
+	  return JSObject.keys(this);
+  }
 }
