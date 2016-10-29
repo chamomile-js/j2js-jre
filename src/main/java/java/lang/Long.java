@@ -9,7 +9,8 @@ import javascript.ScriptHelper;
  */
 public final class Long {
     
-    public static final Class<Long> TYPE = null;
+    @SuppressWarnings("unchecked")
+	public static final Class<Long> TYPE = (Class<Long>) long[].class.getComponentType();
     
     private long value;
     
