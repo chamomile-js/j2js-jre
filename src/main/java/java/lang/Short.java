@@ -2,7 +2,8 @@ package java.lang;
 
 public final class Short extends Number {
 
-    public static final Class<Short> TYPE = null;
+    @SuppressWarnings("unchecked")
+	public static final Class<Short> TYPE = (Class<Short>) short[].class.getComponentType();
     
     private short value;
     
