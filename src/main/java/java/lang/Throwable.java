@@ -13,76 +13,80 @@ package java.lang;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 
 import javascript.ScriptHelper;
 
-/**
- * The Throwable class is the superclass of all errors and exceptions in the Java language.
- */
-public class Throwable {
+public class Throwable implements Serializable {
+	/** use serialVersionUID from JDK 1.0.2 for interoperability */
+	private static final long serialVersionUID = -3042686055658047285L;
 
-    private String message;
-    private Throwable cause;
-    private String stackTrace;
-    
-    public Throwable() {
-    }
+	private String message;
+	private Throwable cause;
+	private String stackTrace;
 
-    public Throwable(String newMessage) {
-        message = newMessage;
-    }
+	public Throwable() {
+	}
 
-    public Throwable(Throwable theCause) {
-        cause = theCause;
-    }
-    
-    public String getMessage() {
-        return message;
-    }
+	public Throwable(String newMessage) {
+		message = newMessage;
+	}
 
-    public String toString() {
-        String s = this.getClass().getName();
-        if (message != null) {
-            s += ": " + message;
-        }
-        return s;
-    }
+	public Throwable(String newMessage, Throwable theCause) {
+		message = newMessage;
+		cause = theCause;
+	}
 
-    public void printStackTrace() {
-        printStackTrace(System.err);
-    }
-    
-    public void printStackTrace(PrintStream stream) {
-        printStackTrace(new PrintWriter(new OutputStreamWriter(stream)));
-    }
-    
-    /**
-     * Prints this throwable and its backtrace to the specified print writer.
-     */
-    public void printStackTrace(PrintWriter printWriter) {
-        
-        printWriter.print(toString());
-        printWriter.println(stackTrace);
-        
-        if (cause != null) {
-            printWriter.println("Caused by:");
-            cause.printStackTrace(printWriter);
-        }
-    }
+	public Throwable(Throwable theCause) {
+		cause = theCause;
+	}
 
-    /**
-     * Returns the cause of this throwable or null if the cause is nonexistent or unknown.
-     */
-    public Throwable getCause() {
-        return cause;
-    }
-    
-    /**
-     * Fills in the execution stack trace.
-     */
-    public Throwable fillInStackTrace() {
-        stackTrace = (String) ScriptHelper.eval("stackTrace.toString()");
-        return this;
-    }
+	protected Throwable(String message, Throwable cause,
+			boolean enableSuppression,
+			boolean writableStackTrace) {
+		this(message, cause);
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public String getLocalizedMessage() {
+		return getMessage();
+	}
+
+	public synchronized Throwable getCause() {
+		return (cause == this ? null : cause);
+	}
+
+	@Override
+	public String toString() {
+		String s = getClass().getName();
+		String message = getLocalizedMessage();
+		return (message != null) ? (s + ": " + message) : s;
+	}
+
+	public void printStackTrace() {
+		printStackTrace(System.err);
+	}
+
+	public void printStackTrace(PrintStream stream) {
+		printStackTrace(new PrintWriter(new OutputStreamWriter(stream)));
+	}
+
+	public void printStackTrace(PrintWriter printWriter) {
+		printWriter.print(toString());
+		printWriter.println(stackTrace);
+
+		if (cause != null) {
+			printWriter.println("Caused by:");
+			cause.printStackTrace(printWriter);
+		}
+	}
+
+	public Throwable fillInStackTrace() {
+		stackTrace = (String) ScriptHelper.eval("stackTrace.toString()");
+		return this;
+	}
 
 }
