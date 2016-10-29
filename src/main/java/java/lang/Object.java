@@ -17,53 +17,61 @@ import javascript.ScriptHelper;
  * methods of this class.
  */
 public class Object {
-   
-   private static int hashCodeCount = 0;
-   private int hashCode = Object.hashCodeCount++;
-   
-   public Object() {}
-   
-   public Object clone() throws CloneNotSupportedException {
-      String className = (String) ScriptHelper.eval("this.clazz.name");
-      
-      // Special treatment for arrays, because for those we have no class to
-      // overwrite the clone() method.
-      if (className.startsWith("[")) {
-         return ScriptHelper.eval("j2js.cloneArray(this)");
-      }
-      
-      return null;
-   }
-   
-   public boolean equals(Object obj) {
-      return this == obj;
-   }
-   
-   public Class<?> getClass() {
-      String className = (String) ScriptHelper.eval("this.clazz.name");
-      try {
-         return Class.forName(className);
-      } catch (ClassNotFoundException e) {
-         throw new RuntimeException(e);
-      }
-   }
-   
-   public int hashCode() {
-      return hashCode;
-   }
-   
-   public void notify() {}
-   
-   public void notifyAll() {}
-   
-   public String toString() {
-      return getClass().toString() + "@" + hashCode;
-   }
-   
-   public void wait() {}
-   
-   public void wait(long timeout) {}
-   
-   public void wait(long timeout, int nanos) {}
-   
+
+    private transient Class<?> __clazz = null;
+
+    private static int hashCodeCount = 0;
+    private transient final int __hashCode;
+
+    public Object() {
+	if (hashCodeCount >= Integer.MAX_VALUE) {
+	    // XXX out of memory
+	    throw new RuntimeException();
+	}
+	this.__hashCode = hashCodeCount++;
+    }
+
+    public Class<?> getClass() {
+	if (__clazz == null) {
+	    try {
+		__clazz = Class.forName((String) ScriptHelper.eval("this.clazz.name"));
+	    } catch (ClassNotFoundException e) {
+		// XXX should never happen...
+		throw new RuntimeException(e);
+	    }
+	}
+	return __clazz;
+    }
+
+    public int hashCode() {
+	return __hashCode;
+    }
+
+    public boolean equals(Object obj) {
+	return this == obj;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+	String className = (String) ScriptHelper.eval("this.clazz.name");
+
+	// Special treatment for arrays, because for those we have no class to
+	// overwrite the clone() method.
+	if (className.startsWith("[")) {
+	    return ScriptHelper.eval("j2js.cloneArray(this)");
+	}
+
+	return null;
+    }
+
+    public String toString() {
+	return getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+
+    /**
+     * Never called; here for JRE compatibility.
+     * 
+     * @skip
+     */
+    protected void finalize() throws Throwable {
+    }
 }
