@@ -20,13 +20,10 @@ import javascript.Utils;
  */
 public final class Double extends Number {
 
-    public static final double NaN;
+    public static final double NaN = ScriptHelper.evalDouble("Number.NaN");
     
-    public static final Class<Double> TYPE = null;
-    
-    static {
-        NaN = ScriptHelper.evalDouble("Number.NaN");
-    }
+    @SuppressWarnings("unchecked")
+	public static final Class<Double> TYPE = (Class<Double>) double[].class.getComponentType();
     
     private double value;
     
