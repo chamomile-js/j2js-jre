@@ -2,7 +2,8 @@ package java.lang;
 
 public final class Float extends Number {
 
-    public static final Class<Float> TYPE = null;
+    @SuppressWarnings("unchecked")
+	public static final Class<Float> TYPE = (Class<Float>) float[].class.getComponentType();
     
     private float value;
 
