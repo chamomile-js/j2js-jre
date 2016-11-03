@@ -18,29 +18,24 @@ import javascript.ScriptHelper;
  */
 public class Object {
 
-    private transient Class<?> __clazz = null;
-
-    private static int hashCodeCount = 0;
+    private static int __hashCodeCount = 0;
     private transient final int __hashCode;
 
     public Object() {
-	if (hashCodeCount >= Integer.MAX_VALUE) {
-	    // XXX out of memory
+	if (__hashCodeCount >= Integer.MAX_VALUE) {
+	    // TODO out of memory exception...
 	    throw new RuntimeException();
 	}
-	this.__hashCode = hashCodeCount++;
+	this.__hashCode = __hashCodeCount++;
     }
 
     public Class<?> getClass() {
-	if (__clazz == null) {
-	    try {
-		__clazz = Class.forName((String) ScriptHelper.eval("this.clazz.name"));
-	    } catch (ClassNotFoundException e) {
-		// XXX should never happen...
-		throw new RuntimeException(e);
-	    }
+	try {
+	    return Class.forName((String) ScriptHelper.eval("this.clazz.name"));
+	} catch (ClassNotFoundException e) {
+	    // XXX should never happen...
+	    throw new RuntimeException(e);
 	}
-	return __clazz;
     }
 
     public int hashCode() {
