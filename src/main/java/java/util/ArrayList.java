@@ -315,5 +315,10 @@ public class ArrayList<E> extends AbstractCollection<E> implements List<E>, Rand
     * size.
     */
    public void trimToSize() {}
+
+    @Override
+    public ListIterator<E> listIterator() {
+        throw new UnsupportedOperationException();
+    }
    
 }
