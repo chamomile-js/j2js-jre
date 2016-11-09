@@ -21,6 +21,10 @@ public final class Byte extends Number implements Comparable<Byte> {
 
     /**
      * The {@code Class} instance representing the primitive type {@code byte}.
+     * <p>
+     * https://android.googlesource.com/platform/libcore/+/android-7.1.0_r4/ojluni/src/main/java/java/lang/Byte.java
+     *
+     * @since JDK1.1
      */
     @SuppressWarnings("unchecked")
     public static final Class<Byte> TYPE = (Class<Byte>) byte[].class.getComponentType();
@@ -84,7 +88,7 @@ public final class Byte extends Number implements Comparable<Byte> {
 
     // ---
 
-    private final transient byte value;
+    private final byte value;
 
     public Byte(byte value) {
 	this.value = value;

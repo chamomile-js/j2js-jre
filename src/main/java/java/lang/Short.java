@@ -1,7 +1,8 @@
 package java.lang;
 
 /**
- * Wraps a primitive <code>short</code> as an object.
+ * The {@code Short} class wraps a value of primitive type {@code
+ * short} in an object.
  */
 public final class Short extends Number implements Comparable<Short> {
     /** use serialVersionUID from JDK 1.1. for interoperability */
@@ -10,6 +11,14 @@ public final class Short extends Number implements Comparable<Short> {
     public static final short MAX_VALUE = (short) 0x7fff;
     public static final short MIN_VALUE = (short) 0x8000;
     public static final int SIZE = 16;
+
+    /**
+     * The number of bytes used to represent a {@code short} value in two's
+     * complement binary form.
+     *
+     * @since 1.8
+     */
+    public static final int BYTES = SIZE / Byte.SIZE;
 
     /**
      * The {@code Class} instance representing the primitive type {@code short}.
@@ -29,6 +38,10 @@ public final class Short extends Number implements Comparable<Short> {
 	return Short.valueOf((short) Number.__decodeAndValidateInt(s, MIN_VALUE, MAX_VALUE));
     }
 
+    public static int hashCode(short value) {
+	return value;
+    }
+
     public static short parseShort(String s) throws NumberFormatException {
 	return parseShort(s, 10);
     }
@@ -43,6 +56,14 @@ public final class Short extends Number implements Comparable<Short> {
 
     public static String toString(short b) {
 	return String.valueOf(b);
+    }
+
+    public static int toUnsignedInt(short x) {
+	return ((int) x) & 0xffff;
+    }
+
+    public static long toUnsignedLong(short x) {
+	return ((long) x) & 0xffffL;
     }
 
     public static Short valueOf(short s) {
