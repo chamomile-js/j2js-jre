@@ -1,6 +1,6 @@
 package java.util;
 
-import chamomile.util.Preconditions;
+import static org.chamomile.util.InternalPreconditions.checkNotNull;
 
 class Comparators {
    
@@ -20,8 +20,8 @@ class Comparators {
    private static final Comparator<Object> NATURAL = new Comparator<Object>() {
       @Override
       public int compare(Object o1, Object o2) {
-         Preconditions.checkNotNull(o1);
-         Preconditions.checkNotNull(o2);
+         checkNotNull(o1);
+         checkNotNull(o2);
          return ((Comparable<Object>) o1).compareTo(o2);
       }
    };
