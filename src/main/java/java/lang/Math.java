@@ -1,248 +1,529 @@
-/*
- * Copyright (c) 2005 j2js.com,
- *
- * All Rights Reserved. This work is distributed under the j2js Software License [1]
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.
- *
- * [1] http://www.j2js.com/license.txt
- */
-
 package java.lang;
 
 import javascript.ScriptHelper;
 
 /**
- * The class Math contains methods for performing basic numeric operations such as the elementary exponential,
- * logarithm, square root, and trigonometric functions.
- * 
- * @author j2js.com
+ * Math utility methods and constants.
  */
 public final class Math {
+  //@formatter:off
+  // The following methods are not implemented because JS doesn't provide the
+  // necessary pieces:
+  //   public static double ulp (double x)
+  //   public static float ulp (float x)
+  //   public static int getExponent (double d)
+  //   public static int getExponent (float f)
+  //   public static double IEEEremainder(double f1, double f2)
+  //   public static double nextAfter(double start, double direction)
+  //   public static float nextAfter(float start, float direction)
+  //   public static double nextUp(double start) {
+  //     return nextAfter(start, 1.0d);
+  //   }
+  //   public static float nextUp(float start) {
+  //     return nextAfter(start,1.0f);
+  //   }
+  //   public static int addExact(int x, int y)
+  //   public static long addExact(long x, long y)
+  //   public static int decrementExact(int a)
+  //   public static long decrementExact(long a)
+  //   public static int floorDiv(int x, int y)
+  //@formatter:on
 
-    /**
-     * The double value that is closer than any other to e, the base of the natural logarithms.
-     */
-    public static double E;
-    
-    /**
-     * The double value that is closer than any other to pi, the ratio of the circumference
-     * of a circle to its diameter.
-     */
-    public static  double PI; 
+  public static final double E = ScriptHelper.evalDouble("Math.E");
+  public static final double PI = ScriptHelper.evalDouble("Math.PI");
 
-    static {
-        E = ScriptHelper.evalDouble("Math.E");
-        PI = ScriptHelper.evalDouble("Math.PI");
-    }
-    
-    private Math() {}
+  private static final double PI_OVER_180 = PI / 180.0;
+  private static final double PI_UNDER_180 = 180.0 / PI;
 
-    /**
-     * Returns the trigonometric sine of an angle.
-     */
-    public static double sin(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.sin(a)");
-    }
+  public static double abs(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.abs(x)");
+  }
 
-    /**
-     * Returns the trigonometric cosine of an angle. 
-     */
-    public static double cos(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.cos(a)");
-    }
+  public static float abs(float a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalFloat("Math.abs(x)");
+  }
 
-    /**
-     * Returns the trigonometric tangent of an angle.
-     */
-    public static double tan(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.tan(a)");
-    }
-    
-    /**
-     * Returns the arc sine of a value; the returned angle is in the range -pi/2 through pi/2.
-     */
-    public static double asin(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.asin(a)");
-    }
+  public static int abs(int a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalInt("Math.abs(x)");
+  }
 
-    /**
-     * Returns the arc cosine of a value; the returned angle is in the range 0.0 through pi.
-     */
-    public static double acos(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.acos(a)");
-    }
-    
-    /**
-     * Returns the arc tangent of a value; the returned angle is in the range -pi/2 through pi/2.
-     */
-    public static double atan(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.atan(a)");
-    }
+  public static long abs(long a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalLong("Math.abs(x)");
+  }
 
-    /**
-     * Converts an angle measured in degrees to an approximately equivalent angle measured in radians.
-     */
-    public static double toRadians(double angdeg) {
-        return angdeg * PI / 180;
-    }
+  public static double acos(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.acos(x)");
+  }
 
-    /**
-     * Converts an angle measured in radians to an approximately equivalent angle measured in degrees.
-     */
-    public static double toDegrees(double angrad) {
-        return angrad * 180 / PI;
-    }
+  /* TODO
+  @formatter:off
+  public static int addExact(int x, int y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
 
-    /**
-     * Returns the correctly rounded positive square root of a double value.
-     */
-    public static double sqrt(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.sqrt(a)");
-    }
+  /* TODO
+  @formatter:off
+  public static long addExact(long x, long y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
 
-    /**
-     * Returns the smallest (closest to negative infinity) double value that is greater than
-     * or equal to the argument and is equal to a mathematical integer.
-     */
-    public static double ceil(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.ceil(a)");
-    }
+  public static double asin(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.asin(x)");
+  }
 
-    /**
-     * Returns the largest (closest to positive infinity) double value that is less than
-     * or equal to the argument and is equal to a mathematical integer.
-     */
-    public static double floor(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.floor(a)");
-    }
-    
-    /**
-     * Returns the closest int to the argument.
-     */
-    public static int round(double a) {
-        return (int) Math.floor(a + 0.5);
-    }
+  public static double atan(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.atan(x)");
+  }
 
-    /**
-     * Returns the absolute value of an int value.
-     */
-    public static int abs(int a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalInt("Math.abs(a)");
-    }
+  public static double atan2(double y, double x) {
+    ScriptHelper.put("y", y);
+    ScriptHelper.put("x", x);
+    return ScriptHelper.evalDouble("Math.atan2(y, x)");
+  }
 
-    /**
-     * Returns the absolute value of a long value.
-     */
-    public static long abs(long a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalLong("Math.abs(a)");
-    }
+  public static double cbrt(double a) {
+    return Math.pow(a, 1.0 / 3.0);
+  }
 
-    /**
-     * Returns the absolute value of a float value.
-     */
-    public static float abs(float a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalFloat("Math.abs(a)");
-    }
+  public static double ceil(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.ceil(x)");
+  }
 
-    /**
-     * Returns the absolute value of a double value.
-     */
-    public static double abs(double a) {
-        ScriptHelper.put("a", a);
-        return ScriptHelper.evalDouble("Math.abs(a)");
+  public static double copySign(double magnitude, double sign) {
+    if (sign < 0) {
+      return (magnitude < 0) ? magnitude : -magnitude;
+    } else {
+      return (magnitude > 0) ? magnitude : -magnitude;
     }
-    
-    /**
-     * Returns the greater of two int values.
-     */
-    public static int max(int a, int b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalInt("Math.max(a, b)");
-    }
+  }
 
-    /**
-     * Returns the greater of two long values.
-     */
-    public static long max(long a, long b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalLong("Math.max(a, b)");
-    }
+  public static float copySign(float magnitude, float sign) {
+    return (float) (copySign((double) magnitude, (double) sign));
+  }
 
-    /**
-     * Returns the greater of two float values.
-     */
-    public static float max(float a, float b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalFloat("Math.max(a, b)");
-    }
+  public static double cos(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.cos(x)");
+  }
 
-    /**
-     * Returns the greater of two double values.
-     */
-    public static double max(double a, double b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalDouble("Math.max(a, b)");
-    }
+  public static double cosh(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("(Math.exp(x) + Math.exp(-x)) / 2.0");
+  }
 
-    /**
-     * Returns the smaller of two int values.
-     */
-    public static int min(int a, int b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalInt("Math.min(a, b)");
-    }
+  public static int decrementExact(int a) {
+    throw new UnsupportedOperationException();
+  }
 
-    /**
-     * Returns the smaller of two long values.
-     */
-    public static long min(long a, long b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalLong("Math.min(a, b)");
-    }
+  public static long decrementExact(long a) {
+    throw new UnsupportedOperationException();
+  }
 
-    /**
-     * Returns the smaller of two float values.
-     */
-    public static float min(float a, float b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalFloat("Math.min(a, b)");
-    }
+  public static double exp(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.exp(x)");
+  }
 
-    /**
-     * Returns the smaller of two double values.
-     */
-    public static double min(double a, double b) {
-        ScriptHelper.put("a", a);
-        ScriptHelper.put("b", b);
-        return ScriptHelper.evalDouble("Math.min(a, b)");
+  public static double expm1(double d) {
+    if (d == 0.0 || Double.isNaN(d)) {
+      return d; // "a zero with same sign as argument", arg is zero, so...
+    } else if (!Double.isInfinite(d)) {
+      if (d < 0.0d) {
+        return -1.0d;
+      } else {
+        return Double.POSITIVE_INFINITY;
+      }
     }
+    return exp(d) + 1.0d;
+  }
 
-    /**
-     * Returns a double value with a positive sign, greater than or equal to 0.0 and less than 1.0.
-     */
-    public static double random() {
-        return ScriptHelper.evalDouble("Math.random()"); 
+  public static double floor(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.floor(x)");
+  }
+
+  /* TODO
+  @formatter:off
+  public static int floorDiv(int x, int y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static long floorDiv(long x, long y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static int floorMod(int x, int y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static long floorMod(long x, long y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static int getExponent(double d) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static int getExponent(float d) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  public static double hypot(double x, double y) {
+    return sqrt(x * x + y * y);
+  }
+
+  /* TODO
+  @formatter:off
+  public static double IEEEremainder(double f1, double f2) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static int incrementExact(int a) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static long incrementExact(long a) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  public static double log(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.log(x)");
+  }
+
+  public static double log10(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.log(x) * Math.LOG10E");
+  }
+
+  public static double log1p(double a) {
+    return Math.log(a + 1.0d);
+  }
+
+  public static double max(double a, double b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", b);
+    return ScriptHelper.evalDouble("Math.max(x, y)");
+  }
+
+  public static float max(float a, float b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", b);
+    return ScriptHelper.evalFloat("Math.max(x, y)");
+  }
+
+  public static int max(int a, int b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", b);
+    return ScriptHelper.evalInt("Math.max(x, y)");
+  }
+
+  public static long max(long a, long b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", b);
+    return ScriptHelper.evalLong("Math.max(x, y)");
+  }
+
+  public static double min(double a, double b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", a);
+    return ScriptHelper.evalDouble("Math.min(x, y)");
+  }
+
+  public static float min(float a, float b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", b);
+    return ScriptHelper.evalFloat("Math.min(x, y)");
+  }
+
+  public static int min(int a, int b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", b);
+    return ScriptHelper.evalInt("Math.min(x, y)");
+  }
+
+  public static long min(long a, long b) {
+    ScriptHelper.put("x", a);
+    ScriptHelper.put("y", b);
+    return ScriptHelper.evalLong("Math.min(x, y)");
+  }
+
+  /* TODO
+  @formatter:off
+  public static int multiplyExact(int x, int y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static int multiplyExact(long x, long y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static int negateExact(int a) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static long negateExact(long a) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static double nextAfter(double start, double direction) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static float nextAfter(float start, double direction) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static double nextDown(double d) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static float nextDown(float f) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static double nextUp(double d) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static float nextUp(float f) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  public static double pow(double x, double exp) {
+    ScriptHelper.put("x", x);
+    ScriptHelper.put("exp", exp);
+    return ScriptHelper.evalDouble("Math.pow(x, exp)");
+  }
+
+  public static double random() {
+    return ScriptHelper.evalDouble("Math.random()");
+  }
+
+  public static double rint(double a) {
+    if (Double.isNaN(a)) {
+      return a;
+    } else if (Double.isInfinite(a)) {
+      return a;
+    } else if (a == 0.0d) {
+      return a;
+    } else {
+      return round(a);
     }
-    
-    
+  }
+
+  public static long round(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalLong("Math.round(x)");
+  }
+
+  public static int round(float a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalInt("Math.round(x)");
+  };
+
+  public static double scalb(double d, int scaleFactor) {
+    if (scaleFactor >= 31 || scaleFactor <= -31) {
+      return d * Math.pow(2, scaleFactor);
+    } else if (scaleFactor > 0) {
+      return d * (1 << scaleFactor);
+    } else if (scaleFactor == 0) {
+      return d;
+    } else {
+      return d * 1.0d / (1 << -scaleFactor);
+    }
+  }
+
+  public static float scalb(float f, int scaleFactor) {
+    if (scaleFactor >= 31 || scaleFactor <= -31) {
+      return f * (float) Math.pow(2, scaleFactor);
+    } else if (scaleFactor > 0) {
+      return f * (1 << scaleFactor);
+    } else if (scaleFactor == 0) {
+      return f;
+    } else {
+      return f * 1.0f / (1 << -scaleFactor);
+    }
+  }
+
+  public static double signum(double d) {
+    if (d > 0.0d) {
+      return 1.0d;
+    } else if (d < 0.0d) {
+      return -1.0d;
+    } else {
+      return 0.0d;
+    }
+  }
+
+  public static float signum(float f) {
+    if (f > 0.0f) {
+      return 1.0f;
+    } else if (f < 0.0f) {
+      return -1.0f;
+    } else {
+      return 0.0f;
+    }
+  }
+
+  public static double sin(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.sin(x)");
+  }
+
+  public static double sinh(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("(Math.exp(x) - Math.exp(-x)) / 2.0)");
+  }
+
+  public static double sqrt(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.sqrt(x)");
+  }
+
+  /* TODO
+  @formatter:off
+  public static int subtractExact(int x, int y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static int subtractExact(long x, long y) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  public static double tan(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("Math.tan(x)");
+  }
+
+  public static double tanh(double a) {
+    ScriptHelper.put("x", a);
+    return ScriptHelper.evalDouble("(function(x){"
+        + "if (x == Infinity) {"
+        + " return 1.0;"
+        + "}"
+        + "var e2x = Math.exp(2.0 * x);"
+        + "return (e2x - 1) / (e2x + 1);"
+        + "})(x)");
+  }
+
+  public static double toDegrees(double a) {
+    return a * PI_UNDER_180;
+  }
+
+  public static int toIntExact(long value) {
+    throw new UnsupportedOperationException();
+  }
+
+  public static double toRadians(double a) {
+    return a * PI_OVER_180;
+  }
+
+  /* TODO
+  @formatter:off
+  public static double ulp(double d) {
+    throw new UnsupportedOperationException(); 
+  }
+  @formatter:on
+  */
+
+  /* TODO
+  @formatter:off
+  public static float ulp(float f) {
+    throw new UnsupportedOperationException();
+  }
+  @formatter:on
+  */
+
+  // ---
+
+  private Math() {}
 }
