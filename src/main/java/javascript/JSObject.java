@@ -58,6 +58,10 @@ public class JSObject {
 	System.scriptEngine.eval("this.obj = new Object()");
     }
 
+    /**
+     * 
+     * @param obj a JavaScript object.
+     */
     public JSObject(Object obj) {
 	System.scriptEngine.put("obj", obj);
 	System.scriptEngine.eval("this.obj = obj");

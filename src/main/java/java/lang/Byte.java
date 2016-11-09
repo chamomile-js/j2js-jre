@@ -1,7 +1,8 @@
 package java.lang;
 
 /**
- * The Byte class wraps a value of primitive type {@code byte} in an object.
+ * The {@code Byte} class wraps a value of primitive type {@code byte} in an
+ * object.
  */
 public final class Byte extends Number implements Comparable<Byte> {
     /** use serialVersionUID from JDK 1.1. for interoperability */
