@@ -6,29 +6,6 @@ import javascript.ScriptHelper;
  * Math utility methods and constants.
  */
 public final class Math {
-  //@formatter:off
-  // The following methods are not implemented because JS doesn't provide the
-  // necessary pieces:
-  //   public static double ulp (double x)
-  //   public static float ulp (float x)
-  //   public static int getExponent (double d)
-  //   public static int getExponent (float f)
-  //   public static double IEEEremainder(double f1, double f2)
-  //   public static double nextAfter(double start, double direction)
-  //   public static float nextAfter(float start, float direction)
-  //   public static double nextUp(double start) {
-  //     return nextAfter(start, 1.0d);
-  //   }
-  //   public static float nextUp(float start) {
-  //     return nextAfter(start,1.0f);
-  //   }
-  //   public static int addExact(int x, int y)
-  //   public static long addExact(long x, long y)
-  //   public static int decrementExact(int a)
-  //   public static long decrementExact(long a)
-  //   public static int floorDiv(int x, int y)
-  //@formatter:on
-
   public static final double E = ScriptHelper.evalDouble("Math.E");
   public static final double PI = ScriptHelper.evalDouble("Math.PI");
 
