@@ -26,36 +26,44 @@
 package java.lang;
 
 /**
- * Thrown if the Java Virtual Machine or a <code>ClassLoader</code> instance
- * tries to load in the definition of a class (as part of a normal method call
- * or as part of creating a new instance using the <code>new</code> expression)
- * and no definition of the class could be found.
- * <p>
- * The searched-for class definition existed when the currently
- * executing class was compiled, but the definition can no longer be
- * found.
+ * Subclasses of {@code LinkageError} indicate that a class has
+ * some dependency on another class; however, the latter class has
+ * incompatibly changed after the compilation of the former class.
  *
- * @author  unascribed
+ *
+ * @author  Frank Yellin
  * @since   JDK1.0
  */
 public
-class NoClassDefFoundError extends LinkageError {
-    private static final long serialVersionUID = 9095859863287012458L;
+class LinkageError extends Error {
+    private static final long serialVersionUID = 3579600108157160122L;
 
     /**
-     * Constructs a <code>NoClassDefFoundError</code> with no detail message.
+     * Constructs a {@code LinkageError} with no detail message.
      */
-    public NoClassDefFoundError() {
+    public LinkageError() {
         super();
     }
 
     /**
-     * Constructs a <code>NoClassDefFoundError</code> with the specified
-     * detail message.
+     * Constructs a {@code LinkageError} with the specified detail
+     * message.
      *
      * @param   s   the detail message.
      */
-    public NoClassDefFoundError(String s) {
+    public LinkageError(String s) {
         super(s);
+    }
+
+    /**
+     * Constructs a {@code LinkageError} with the specified detail
+     * message and cause.
+     *
+     * @param s     the detail message.
+     * @param cause the cause, may be {@code null}
+     * @since 1.7
+     */
+    public LinkageError(String s, Throwable cause) {
+        super(s, cause);
     }
 }

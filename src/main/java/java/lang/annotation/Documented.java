@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,39 +23,21 @@
  * questions.
  */
 
-package java.lang;
+package java.lang.annotation;
 
 /**
- * Thrown if the Java Virtual Machine or a <code>ClassLoader</code> instance
- * tries to load in the definition of a class (as part of a normal method call
- * or as part of creating a new instance using the <code>new</code> expression)
- * and no definition of the class could be found.
- * <p>
- * The searched-for class definition existed when the currently
- * executing class was compiled, but the definition can no longer be
- * found.
+ * Indicates that annotations with a type are to be documented by javadoc
+ * and similar tools by default.  This type should be used to annotate the
+ * declarations of types whose annotations affect the use of annotated
+ * elements by their clients.  If a type declaration is annotated with
+ * Documented, its annotations become part of the public API
+ * of the annotated elements.
  *
- * @author  unascribed
- * @since   JDK1.0
+ * @author  Joshua Bloch
+ * @since 1.5
  */
-public
-class NoClassDefFoundError extends LinkageError {
-    private static final long serialVersionUID = 9095859863287012458L;
-
-    /**
-     * Constructs a <code>NoClassDefFoundError</code> with no detail message.
-     */
-    public NoClassDefFoundError() {
-        super();
-    }
-
-    /**
-     * Constructs a <code>NoClassDefFoundError</code> with the specified
-     * detail message.
-     *
-     * @param   s   the detail message.
-     */
-    public NoClassDefFoundError(String s) {
-        super(s);
-    }
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface Documented {
 }

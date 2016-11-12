@@ -123,6 +123,18 @@ public final class Class<T> implements java.io.Serializable {
     }
     return componentType;
   }
+  
+  /*
+   * Return the Virtual Machine's Class object for the named
+   * primitive type.
+   */
+  static Class<?> getPrimitiveClass(String signature) {
+    try {
+      return forName(signature);
+    } catch (java.lang.ClassNotFoundException e) {
+      return null;
+    }
+  }
 
   /**
    * Creates a new instance of the class represented by this {@code Class}
