@@ -14,10 +14,10 @@
 package java.lang;
 
 import java.io.PrintStream;
-import java.util.HashMap;
 
 import javax.script.ScriptEngine;
 
+import javascript.JSObject;
 import javascript.ScriptHelper;
 
 /**
@@ -41,7 +41,7 @@ public final class System {
    /**
     * System property set through the URL query parameters on startup.
     */
-   public static HashMap<String, String> properties = new HashMap<String, String>();
+   public static JSObject properties = new JSObject();
    
    public static ScriptEngine scriptEngine;
    
@@ -79,7 +79,7 @@ public final class System {
     *           the name of the system property
     */
    public static String getProperty(String key) {
-      return properties.get(key);
+      return (java.lang.String) properties.get(key);
    }
    
    /**
@@ -90,7 +90,7 @@ public final class System {
     *           the name of the system property
     */
    public static String getProperty(String key, String def) {
-      String propertyValue = properties.get(key);
+      String propertyValue = (java.lang.String) properties.get(key);
       if (propertyValue == null)
          return def;
       return propertyValue;

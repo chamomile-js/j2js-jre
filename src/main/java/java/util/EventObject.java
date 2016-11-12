@@ -1,18 +1,67 @@
+/*
+ * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
 package java.util;
 
-public class EventObject {
+/**
+ * <p>
+ * The root class from which all event state objects shall be derived.
+ * <p>
+ * All Events are constructed with a reference to the object, the "source",
+ * that is logically deemed to be the object upon which the Event in question
+ * initially occurred upon.
+ *
+ * @since JDK1.1
+ */
 
-    private Object source;
-    
+public class EventObject implements java.io.Serializable {
+
+    private static final long serialVersionUID = 5516075349620653480L;
+
     /**
-     * Warning: This constructor is not defined by the SWT API. Do not use it!
+     * The object on which the Event initially occurred.
      */
-    public EventObject(Object theSource) {
-        source = theSource;
+    protected transient Object  source;
+
+    /**
+     * Constructs a prototypical Event.
+     *
+     * @param    source    The object on which the Event initially occurred.
+     * @exception  IllegalArgumentException  if source is null.
+     */
+    public EventObject(Object source) {
+        if (source == null)
+            throw new IllegalArgumentException("null source");
+
+        this.source = source;
     }
 
     /**
      * The object on which the Event initially occurred.
+     *
+     * @return   The object on which the Event initially occurred.
      */
     public Object getSource() {
         return source;
@@ -20,10 +69,10 @@ public class EventObject {
 
     /**
      * Returns a String representation of this EventObject.
+     *
+     * @return  A a String representation of this EventObject.
      */
     public String toString() {
-        String unQualifiedClassName = getClass().getName().replaceAll(".*\\.", "");
-        return  unQualifiedClassName + "{" + source.toString() + "}";
+        return getClass().getName() + "[source=" + source + "]";
     }
-
 }

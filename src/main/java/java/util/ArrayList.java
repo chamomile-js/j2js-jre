@@ -6,23 +6,18 @@ import static org.chamomile.util.InternalPreconditions.checkPositionIndex;
 
 import java.io.Serializable;
 
-import org.chamomile.util.InternalPreconditions;
-
 import javascript.ScriptHelper;
 
 public class ArrayList<E> extends AbstractList<E>
     implements List<E>, Cloneable, RandomAccess, Serializable {
   private static final long serialVersionUID = 8683452581122892189L;
 
-  private transient E[] array;
-
   @SuppressWarnings("unchecked")
-  public ArrayList() {
-    array = (E[]) (new Object[0]);
-  }
+  private transient E[] array = (E[]) new Object[0];
+
+  public ArrayList() {}
 
   public ArrayList(Collection<E> list) {
-    this();
     for (E elem : list) {
       add(elem);
     }

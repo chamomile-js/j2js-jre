@@ -18,55 +18,54 @@ import javascript.ScriptHelper;
  */
 public class Object {
 
-    private static int __hashCodeCount = 0;
-    private transient final int __hashCode;
+  private static int __hashCodeCount = 0;
+  private transient final int __hashCode;
 
-    public Object() {
-	if (__hashCodeCount >= Integer.MAX_VALUE) {
-	    // TODO out of memory exception...
-	    throw new RuntimeException();
-	}
-	this.__hashCode = __hashCodeCount++;
+  public Object() {
+    if (__hashCodeCount >= Integer.MAX_VALUE) {
+      // TODO out of memory exception...
+      throw new RuntimeException();
+    }
+    this.__hashCode = __hashCodeCount++;
+  }
+
+  public Class<?> getClass() {
+    try {
+      return Class.forName((String) ScriptHelper.eval("this.clazz.name"));
+    } catch (ClassNotFoundException e) {
+      // XXX should never happen...
+      throw new RuntimeException(e);
+    }
+  }
+
+  public int hashCode() {
+    return __hashCode;
+  }
+
+  public boolean equals(Object obj) {
+    return this == obj;
+  }
+
+  protected Object clone() throws CloneNotSupportedException {
+    String className = (String) ScriptHelper.eval("this.clazz.name");
+
+    // Special treatment for arrays, because for those we have no class to
+    // overwrite the clone() method.
+    if (className.startsWith("[")) {
+      return ScriptHelper.eval("j2js.cloneArray(this)");
     }
 
-    public Class<?> getClass() {
-	try {
-	    return Class.forName((String) ScriptHelper.eval("this.clazz.name"));
-	} catch (ClassNotFoundException e) {
-	    // XXX should never happen...
-	    throw new RuntimeException(e);
-	}
-    }
+    return null;
+  }
 
-    public int hashCode() {
-	return __hashCode;
-    }
+  public String toString() {
+    return getClass().getName() + "@" + Integer.toHexString(hashCode());
+  }
 
-    public boolean equals(Object obj) {
-	return this == obj;
-    }
-
-    public Object clone() throws CloneNotSupportedException {
-	String className = (String) ScriptHelper.eval("this.clazz.name");
-
-	// Special treatment for arrays, because for those we have no class to
-	// overwrite the clone() method.
-	if (className.startsWith("[")) {
-	    return ScriptHelper.eval("j2js.cloneArray(this)");
-	}
-
-	return null;
-    }
-
-    public String toString() {
-	return getClass().getName() + "@" + Integer.toHexString(hashCode());
-    }
-
-    /**
-     * Never called; here for JRE compatibility.
-     * 
-     * @skip
-     */
-    protected void finalize() throws Throwable {
-    }
+  /**
+   * Never called; here for JRE compatibility.
+   * 
+   * @skip
+   */
+  protected void finalize() throws Throwable {}
 }
