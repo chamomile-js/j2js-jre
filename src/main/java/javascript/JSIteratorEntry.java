@@ -2,7 +2,7 @@ package javascript;
 
 import java.util.Map.Entry;
 
-public class JSIteratorEntry extends JSObject implements Entry<String, Object> {
+public class JSIteratorEntry<V> extends JSObject<V> implements Entry<String, V> {
 
   JSIteratorEntry(Object obj) {
     super(obj);
@@ -13,13 +13,14 @@ public class JSIteratorEntry extends JSObject implements Entry<String, Object> {
     return (String) ScriptHelper.eval("this.obj.key");
   }
 
+  @SuppressWarnings("unchecked")
   @Override
-  public Object getValue() {
-    return ScriptHelper.eval("this.obj.value");
+  public V getValue() {
+    return (V) ScriptHelper.eval("this.obj.value");
   }
 
   @Override
-  public Object setValue(Object value) {
+  public V setValue(V value) {
     throw new UnsupportedOperationException();
   }
 

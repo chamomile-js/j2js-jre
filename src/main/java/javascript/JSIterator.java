@@ -3,7 +3,7 @@ package javascript;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-public class JSIterator extends JSObject implements Iterator<Entry<String, Object>> {
+public class JSIterator<V> extends JSObject<V> implements Iterator<Entry<String, V>> {
 
   JSIterator(Object obj) {
     super(obj);
@@ -15,9 +15,9 @@ public class JSIterator extends JSObject implements Iterator<Entry<String, Objec
   }
 
   @Override
-  public JSIteratorEntry next() {
+  public JSIteratorEntry<V> next() {
     Object obj = ScriptHelper.eval("this.obj.next()");
-    return obj != null ? new JSIteratorEntry(obj) : null;
+    return obj != null ? new JSIteratorEntry<V>(obj) : null;
   }
 
   @Override

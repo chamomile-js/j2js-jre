@@ -183,7 +183,7 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V>
   }
   
   private boolean containsStringValue(Object value, InternalStringMap<V> stringMap) {
-    for (Entry<String, Object> entry : stringMap) {
+    for (Entry<String, V> entry : stringMap) {
       if (equals(value, entry.getValue())) {
         return true;
       }
@@ -232,7 +232,6 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V>
     return (V) hashCodeMap.getEntry(key);
   }
 
-  @SuppressWarnings("unchecked")
   private V getStringValue(String key) {
     return key == null ? getHashValue(null) : (V) stringMap.get(key);
   }
@@ -249,7 +248,6 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V>
     return hashCodeMap.put(key, value);
   }
   
-  @SuppressWarnings("unchecked")
   private V putStringValue(String key, V value) {
     return key == null ? putHashValue(null, value) : (V) stringMap.put(key, value);
   }
@@ -258,7 +256,6 @@ public abstract class AbstractHashMap<K, V> extends AbstractMap<K, V>
     return hashCodeMap.remove(key);
   }
   
-  @SuppressWarnings("unchecked")
   private V removeStringValue(String key) {
     return key == null ? removeHashValue(null) : (V) stringMap.remove(key);
   }

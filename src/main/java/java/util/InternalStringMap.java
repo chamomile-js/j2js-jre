@@ -2,7 +2,7 @@ package java.util;
 
 import javascript.JSObject;
 
-final class InternalStringMap<V> extends JSObject {
+final class InternalStringMap<V> extends JSObject<V> {
   
   private final Map<?, V> host;
 

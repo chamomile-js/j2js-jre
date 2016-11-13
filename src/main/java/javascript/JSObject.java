@@ -3,7 +3,7 @@ package javascript;
 import java.util.Map.Entry;
 
 /** Represents a native JavaScript object. */
-public class JSObject implements Iterable<Entry<String, Object>> {
+public class JSObject<V> implements Iterable<Entry<String, V>> {
 
   public static boolean containsKey(Object obj, String key) {
     ScriptHelper.put("obj", obj);
@@ -59,15 +59,17 @@ public class JSObject implements Iterable<Entry<String, Object>> {
     return ScriptHelper.evalBoolean("typeof(this.obj[key]) != 'undefined'");
   }
 
-  public Object get(String key) {
+  @SuppressWarnings("unchecked")
+  public V get(String key) {
     ScriptHelper.put("key", key);
     if (containsKey(key)) {
-      return System.scriptEngine.eval("this.obj[key]");
+      return (V) System.scriptEngine.eval("this.obj[key]");
     }
     return null;
   }
 
-  public Object put(String key, Object value) {
+  @SuppressWarnings("unchecked")
+  public V put(String key, V value) {
     ScriptHelper.put("key", key);
     ScriptHelper.put("value", value);
     Object oldValue = ScriptHelper.eval("(function(map){"
@@ -80,10 +82,11 @@ public class JSObject implements Iterable<Entry<String, Object>> {
       structureChanged();
     }
 
-    return oldValue;
+    return (V) oldValue;
   }
 
-  public Object remove(String key) {
+  @SuppressWarnings("unchecked")
+  public V remove(String key) {
     ScriptHelper.put("key", key);
     Object value = ScriptHelper.eval("(function(map){"
         + " var oldValue = map[key];"
@@ -95,7 +98,7 @@ public class JSObject implements Iterable<Entry<String, Object>> {
       structureChanged();
     }
 
-    return value;
+    return (V) value;
   }
 
   public String[] keys() {
@@ -107,7 +110,7 @@ public class JSObject implements Iterable<Entry<String, Object>> {
   }
 
   @Override
-  public JSIterator iterator() {
+  public JSIterator<V> iterator() {
     Object obj = ScriptHelper.eval("(function(map){"
         + "var keys = Object.getOwnPropertyNames(map);"
         + "var nextIndex = 0;"
@@ -124,7 +127,7 @@ public class JSObject implements Iterable<Entry<String, Object>> {
         + "};"
         + "})(this.obj)");
 
-    return obj != null ? new JSIterator(obj) : null;
+    return obj != null ? new JSIterator<V>(obj) : null;
   }
 
   public void structureChanged() {}

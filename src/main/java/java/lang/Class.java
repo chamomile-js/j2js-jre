@@ -16,6 +16,7 @@ import java.lang.reflect.Proxy;
 
 import javascript.JSObject;
 import javascript.ScriptHelper;
+import javascript.Utils;
 
 /**
  * The in-memory representation of a Java class. This representation serves as
@@ -29,9 +30,9 @@ public final class Class<T> implements java.io.Serializable {
   private static final long serialVersionUID = 3206093459760846163L;
 
   private class AnnotationInvocationHandler implements InvocationHandler {
-    private JSObject object;
+    private JSObject<?> object;
 
-    AnnotationInvocationHandler(JSObject theObject) {
+    AnnotationInvocationHandler(JSObject<?> theObject) {
       object = theObject;
     }
 
@@ -51,10 +52,10 @@ public final class Class<T> implements java.io.Serializable {
 	    // @formatter:on
     }
   }
-  
+
   // ---
 
-  private static final JSObject classesByName = new JSObject();
+  private static final JSObject<Class<?>> classesByName = new JSObject<Class<?>>();
   @SuppressWarnings("unused")
   private Object nativeClass;
 
@@ -87,7 +88,7 @@ public final class Class<T> implements java.io.Serializable {
    *           if the class cannot be located.
    */
   public static Class<?> forName(String className) throws ClassNotFoundException {
-    Class<?> clazz = (Class<?>) classesByName.get(className);
+    Class<?> clazz = classesByName.get(className);
     if (clazz != null)
       return clazz;
 
@@ -103,7 +104,7 @@ public final class Class<T> implements java.io.Serializable {
     return clazz;
   }
 
-  private transient Class<?> componentType;
+  private transient Class<?> componentType = null;
 
   /**
    * Returns the Class representing the component type of an array. If this
@@ -114,6 +115,14 @@ public final class Class<T> implements java.io.Serializable {
       String className = getName();
       if (className != null && className.charAt(0) == '[') {
         className = className.substring(1);
+        
+        if (className.charAt(0) == 'L') {
+          className = className.substring(1);
+        }
+        int lastCharIdx = className.length() - 1;
+        if (className.charAt(lastCharIdx) == ';') {
+          className = className.substring(0, lastCharIdx);
+        }
         try {
           componentType = Class.forName(className);
         } catch (java.lang.ClassNotFoundException e) {
@@ -123,10 +132,9 @@ public final class Class<T> implements java.io.Serializable {
     }
     return componentType;
   }
-  
+
   /*
-   * Return the Virtual Machine's Class object for the named
-   * primitive type.
+   * Return the Virtual Machine's Class object for the named primitive type.
    */
   static Class<?> getPrimitiveClass(String signature) {
     try {
@@ -291,7 +299,14 @@ public final class Class<T> implements java.io.Serializable {
    * @since JDK1.1
    */
   public boolean isPrimitive() {
-    throw new UnsupportedOperationException();
+    return this == Void.TYPE
+        || this == Character.TYPE
+        || this == Byte.TYPE
+        || this == Short.TYPE
+        || this == Integer.TYPE
+        || this == Long.TYPE
+        || this == Float.TYPE
+        || this == Double.TYPE;
   }
 
   /**
@@ -409,11 +424,11 @@ public final class Class<T> implements java.io.Serializable {
     ScriptHelper.eval("for (var e in this.nativeClass.constr.prototype) { signatures.push(e); }");
     for (int i = 0, j = 0; i < signatures.length; i++) {
       String signature = signatures[i];
-      System.out.println(">>>>" + signature);
+      //System.out.println(">>>>" + signature);
       // Do not include constructors, class initializers or member
       // variables.
-      if (signature.startsWith("<init>") 
-          || signature.startsWith("<clinit>") 
+      if (signature.startsWith("<init>")
+          || signature.startsWith("<clinit>")
           || signature.indexOf("(") == -1) {
         continue;
       }
@@ -449,6 +464,21 @@ public final class Class<T> implements java.io.Serializable {
    */
   public boolean desiredAssertionStatus() {
     return false;
+  }
+
+  public Method getMethod(String name, Class<?>[] parameterTypes)
+      throws NoSuchMethodException {
+    String methodSignature = Utils.getMethodSignature(name, null, parameterTypes);
+    Method[] methods = getDeclaredMethods();
+    if (methods != null) {
+      for (Method method : methods) {
+        String signature = method.toString();
+        if (signature.startsWith(methodSignature)) {
+          return method;
+        }
+      }
+    }
+    throw new NoSuchMethodException(this + "#" + methodSignature);
   }
 
 }
